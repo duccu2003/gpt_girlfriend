@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.min.css" integrity="sha512-i1b/nzkVo97VN5WbEtaPebBG8REvjWeqNclJ6AItj7msdVcaveKrlIIByDpvjk5nwHjXkIqGZscVxOrTb9tsMA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>AI_Assistant</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+        
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        body{
+            display: flex;
+            flex-direction: row;
+            width: 100% !important;
+            overflow-x: hidden;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        .input-class-chat{
+            gap:10px; 
+            padding:10px;
+            align-items: center !important;
+            align-content: center !important;
+            
+
+        }
+        .input-class-chat textarea{
+            padding:10px;
+            min-height: 45px;
+            border-radius: 12px;
+        }
+        .avt-pr-chat{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border-color: black;
+            border: 2px solid;
+
+        }
+        .list-chat{
+            padding:10px;
+            margin: 0;
+            grid: 10px;
+            height:60vh;
+            width: 100%;
+            align-content: end;
+            
+            flex: 1;
+            overflow-y: auto;
+            
+
+        }
+        #input-and-list-chat{
+            margin: 0;
+            border: 7.5px solid #E49CC7;
+            border-radius: 12px;
+            background: #00000056;
+            height: auto;
+            width: 100%;
+            margin-top: 20px;
+            
+            align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+            justify-content: space-between; /* Tạo khoảng cách đều giữa các phần tử */
+            gap: 10px; /* Khoảng cách giữa các phần tử */
+        }
+        .messages{
+            width: 100%;
+            height: max-content;
+            margin: 2.5px 0;
+            text-align: left !important;
+            justify-content: center;
+            justify-items: center;
+            flex-wrap: wrap;
+            overflow: hidden;
+           
+        }
+        .messages,.items-chat,.a-btn-send,.input-class-chat,.input-class-chat textarea{
+            
+            align-items: flex-start;
+            align-content: center;
+        }
+        .items-chat{
+            height: max-content;
+            padding: 0;
+            justify-items: center;
+            width: 350px;
+            display: block;
+            flex-wrap: wrap;
+            border-radius: 12px;
+            
+        }
+        .text-chat{
+            word-wrap: break-word; /* Tự động xuống dòng khi vượt quá chiều rộng khung chứa */
+            white-space: pre-wrap; /* Bảo toàn định dạng xuống dòng */
+        }
+        .items-chat p, .items-chat pre{
+            padding: 10px;
+            
+            flex-wrap: wrap;
+            overflow: hidden;
+            width:100%;
+        }
+        .name-pr-chat{
+            border-bottom: 1px dashed black;
+            
+        }
+        .text-chat{
+            
+        }
+        body{
+            background: #fccb90 !important;
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgba(213, 126, 235, 1)) !important;
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgba(213, 126, 235, 1)) !important;
+        }
+        .content{
+            
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: fixed;
+            right: 0;
+            margin: auto;
+            overflow: hidden; 
+            padding: 10px 25px;
+            grid-gap: 10px;
+           
+            
+        }
+       
+        .toBot .items-chat{
+            background: #ffffff;
+            float: left;
+            text-align: start;
+            
+            
+        }
+        .toBot{
+            flex-direction: row;
+            align-self: flex-start;
+            float: left;
+            justify-content: flex-start;
+        }
+        .toUser .items-chat{
+            text-align: start;
+            float: right;
+            background: #fccb90;
+
+            
+        }
+        .toUser{
+            flex-direction: row;
+            align-self: flex-end;         
+            justify-content: flex-end;
+            float: right;
+        }
+        .items-chat{
+            display: block;
+        }
+        .a-btn-send i{
+            
+        }
+        .input-text{
+            flex-grow: 1; /* Cho phép textarea chiếm nhiều không gian */
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            outline: none;
+            resize: none;
+        }
+        .a-btn-send{
+            background: white;
+            width: 45px !important;
+            height: 45px !important;
+            justify-content: center;
+            justify-items: center;
+            text-align: center;
+            border-radius: 50%;
+            align-items: center !important;
+            align-content: center !important;
+            object-fit: cover;
+            display: flex; /* Đảm bảo các thuộc tính flex hoạt động */
+            box-sizing: border-box; /* Đảm bảo padding và border không ảnh hưởng đến kích thước */
+            overflow: hidden; /* Giữ nội dung bên trong */
+        }
+        .input-class-chat {
+            padding: 10px;
+            border-top: 1px solid #ccc; /* Thêm một đường viền để phân biệt vùng nhập liệu */
+        }
+        .avt-pr{
+            width: 50px;
+        }
+    </style>
+    <style>
+       
+        
+        
+        .content-model{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            padding: 10px 10px 0 10px;
+           
+        }
+        .content-setWeb-left{
+            position: absolute;
+            top: 0;
+            padding: 10px;
+            left: 0;
+        }
+        .content-setWeb-right{
+            position: absolute;
+            top: 0;
+            padding: 10px;
+            right: 0;
+            
+        }
+        .setUp-Model{
+            
+            padding: 10px;
+            border-radius: 12px;
+            background: #fccb9030;
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to bottom right, rgba(255, 167, 60, 0.5), rgba(213, 126, 235, 0.5));
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to bottom right, rgba(255, 167, 60, 0.5), rgba(213, 126, 235, 0.5));
+            color: #fff !important;
+            border: 7.5px solid rgba(255, 167, 60, 0.5);
+
+            
+           
+        }
+        .content-setWeb-right .setUp-Model{
+            background: #00000030;
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to bottom right, rgba(0, 0, 0, 0.5), rgba(38, 23, 42, 0.5));
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.5), rgba(38, 23, 42, 0.5));
+        }
+        .btn-set-Web{
+            padding: 10px;
+            
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #fccb90;
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgba(213, 126, 235, 1));
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgba(213, 126, 235, 1));
+        }
+        /*#textNotification{
+            display: block;
+            color: #000;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            margin: auto;
+            position: fixed;
+            top:10px;
+            width: max-content;
+        }*/
+        #textNotification {
+            display: block;
+            color: #000;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            text-align: center; /* Canh giữa văn bản bên trong */
+        }
+        #outputValueAudio{
+            width: 100%;
+            height: 60px;
+            padding:10px;
+            
+            grid: 10px;
+            align-content: start;
+            overflow-y: auto;
+            margin: 0;
+            border: 7.5px solid #E49CC7;
+            border-radius: 12px;
+            background: #fff;
+        }
+        .content-setWeb-left{
+            
+        }
+        @media only screen and (max-width: 765px) {
+            
+            body{
+                display: grid;
+                width: 100%;
+                padding:0;
+                margin: 0;
+                height: 100%;
+                
+            }
+            .content-model{
+                width: 100%;
+            }
+            .content{
+                
+              
+                display: none;
+                width: 100%;
+                align-content: end;
+                grid-gap:10px;
+                height: 100%;
+
+            }
+            .content-setWeb-left{
+                margin: auto;
+                width: 100%;
+                
+                
+            }
+            .setUp-Model{
+                margin: auto;
+                align-items: center;
+                align-content: center;
+                width:100%;
+                
+                align-self: flex-end;
+                position:fixed;
+
+                bottom: 10px;
+                left: 25%;
+                right: 25%;
+                z-index: 99;
+                
+            }
+            .content-setWeb-left{
+                display: flex;
+                position: relative;
+                flex-direction: column;
+                min-height: 100%;
+                justify-content: flex-end;
+                
+            }
+            .list-chat{
+               
+            }
+            .content-model, .content{
+                width: 100%;
+            }
+            .class-content{
+                margin: 5rem auto;
+            }
+        }
+        @media only screen and (min-width:765px){
+            .content-model, .content{
+               
+                width: 50%;
+                
+            }
+            
+        }
+        #showSetting,#showInfo,#showProfile{
+            display: none;
+            
+            grid-gap:10px ;
+            font-weight: bolder;
+            color:white;
+        }
+        .class-content::-webkit-scrollbar-track
+        {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            border: 2px solid white;
+            background-color: #f5f5f500;
+            border-right: none;
+        }
+        .class-content::-webkit-scrollbar
+        {
+            width: 12px;
+            background-color: #f5f5f500;
+        }
+        .class-content::-webkit-scrollbar-thumb
+        {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            background-color: white;
+        }
+
+        .class-content{
+            margin-top:20px;
+            width: 100%;
+            height: max-content;
+            max-height: 95%;
+            overflow-y: auto;
+            text-align: start;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            align-content: center;
+            background: #fccb90;
+            background: -webkit-linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgb(252, 144, 239));
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgb(252, 144, 239));
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 20px;
+            grid-gap: 10px;
+            
+            
+        }
+        .controlboxlabel{
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px 15px;
+            border:2px solid #ccc;
+            border-radius: 20px;
+            background: #E49CC7;
+            grid-gap:10px ;
+            text-align: start;
+            
+            
+        }
+        .closeContent{
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 5px;
+            border:2px solid #ccc;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            background: #E49CC7;
+            position: absolute;
+            top:10px;
+            left: 0;
+            text-align: center;
+            justify-content: center;
+            align-content: center;
+        }
+        .inputSetting{
+            padding: 5px 15px;
+            
+        }
+        .content-info ul{
+            padding: 10px 20px;
+
+            list-style:circle;
+        }
+        .content-info ul li {
+            padding: 5px;
+            
+        }
+       
+        .content-info h1 {
+            text-align: center;
+        }
+        .content-info h3 {
+            background: #E49CC7;
+            padding: 10px;
+            border: 2px solid #fff ;
+            border-radius: 20px;
+        }
+        .closeContent{
+            color: white;
+        }
+        .btn-chat{
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            border: 2px solid white;
+            border-radius: 50%;
+            background: #E49CC7;
+            text-align: center;
+            justify-items: center;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            color: white;
+        }
+        #btn-chat{
+            display: none;
+        }
+        .content-profile{
+            display: flex;
+            text-align: center;
+            justify-content: center;
+        }
+        .upper{
+
+            height: 100px;
+    
+           }
+    
+           .upper img{
+    
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+    
+           }
+           .user{
+            position: relative;
+           }
+    
+           .profile img{
+    
+            
+            height: 120px;
+            width: 120px;
+            margin-top:2px;
+            border-radius: 50%;
+           
+           }
+    
+           .profile{
+    
+            margin:30px auto auto auto;
+            height: 130px;
+            width: 130px;
+            border:3px solid #fff;
+    
+            border-radius: 50%;
+    
+           }
+    </style>
+</head>
+<body class="d-flex">
+
+
+    <!-- <script>
+        // Các biến trạng thái
+        let micEnabled = false;
+        let cameraEnabled = false;
+        let audioEnabled = false;
+    
+        function toggleMic() {
+            micEnabled = !micEnabled;
+            document.getElementById('mic-btn').innerHTML = micEnabled 
+                ? '<i class="fa-solid fa-microphone" style="color: #fff;"></i>' 
+                : '<i class="fa-solid fa-microphone-slash" style="color: #f00;"></i>';
+            // Thay đổi trạng thái mic của trang web ở đây
+            let mediaDevices = navigator.mediaDevices;
+            console.log(`Mic ${micEnabled ? 'Enabled' && mediaDevices
+            .getUserMedia({
+                video: false,
+                audio: true,
+            })  : 'Disabled' && mediaDevices
+            .getUserMedia({
+                video: false,
+                audio: false,
+            })}`);
+
+            document.getElementById('textNotification').style.display = micEnabled == true  ? 'flex' : 'none';
+
+        }
+    
+        function toggleCamera() {
+            cameraEnabled = !cameraEnabled;
+            document.getElementById('camera-btn').innerHTML = cameraEnabled 
+                ? '<i class="fa-solid fa-camera" style="color: #fff;"></i>' 
+                : '<i class="fa-solid fa-camera-slash" style="color: #f00;"></i>';
+            let mediaDevices = navigator.mediaDevices;
+
+            // Thay đổi trạng thái camera của trang web ở đây
+            console.log(`Camera ${cameraEnabled ? 'Enabled' && mediaDevices
+            .getUserMedia({
+                video: true,
+                audio: true,
+            })
+            .then((stream) => {
+                // Changing the source of video to current stream.
+                video.srcObject = stream;
+                video.addEventListener("loadedmetadata", () => {
+                    video.play();
+                });
+            })
+            .catch(alert) : 'Disabled' && mediaDevices.getUserMedia({video: false, audio: false})
+            .then(mediaStream => {
+              const stream = mediaStream;
+              const tracks = stream.getTracks();
+          
+              tracks[0].stop;
+            }) &&  document.getElementById('textNotification').display=='none'}`);
+
+            
+             document.getElementById('textNotification').style.display = micEnabled == true ? 'flex' : 'none';
+
+        }
+    
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            document.getElementById('audio-btn').innerHTML = audioEnabled 
+                ? '<i class="fa-solid fa-volume-up" style="color: #fff;"></i>' 
+                : '<i class="fa-solid fa-volume-mute" style="color: #f00;"></i>';
+            // Thay đổi trạng thái âm thanh của trang web ở đây
+            console.log(`Audio ${audioEnabled ? 'Enabled' : 'Disabled'}`);
+        }
+    
+        function openInfo() {
+            // Xử lý để ẩn thông tin khi nhấp vào phần tử với id 'credits'
+            document.getElementById('credits').style.display = 'none';
+        }
+    
+        function interface() {
+            // Xử lý để ẩn giao diện khi nhấp vào phần tử với id 'setting-btn'
+            document.getElementById('interface').style.display = 'none';
+        }
+    </script>
+    <p id="textNotification">Mic đang được bật, bạn có thể ra lệnh bằng giọng nói bằng cách gọi "Ai ơi" hoặc "Hey Ai".</p> -->
+    
+    <script>
+        document.getElementById('setting-btn').addEventListener('click', openSetting);
+        document.getElementById('btn-chat').addEventListener('click', openChatting);
+        
+        function openChatting(){
+            hideAll();
+            const chattingFace = document.getElementById('showChatting');
+            chattingFace.style.display = chattingFace.style.display !== "none" ? "none":"block";
+            document.getElementById('btn-chat').style.display = chattingFace.style.display !== "none" ? "none":"block";
+        }
+        function openProfile() {        
+            hideAll();
+            const profileFace = document.getElementById('showProfile');
+            profileFace.style.display = profileFace.style.display !== "none" ? "none":"block";
+        }
+        function openSetting() {        
+            hideAll();
+            const settingFace = document.getElementById('showSetting');
+            settingFace.style.display = settingFace.style.display !== "none" ? "none":"block";
+        }
+        
+        function openInfo() {        
+            hideAll();
+            const infoFace = document.getElementById('showInfo');
+            infoFace.style.display = infoFace.style.display !== "none" ? "none":"block";
+        }
+        
+        function hideAll(){
+            const contents  = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.style.display = "none";
+            });
+        
+            document.getElementById('btn-chat').style.display = "block";
+        }
+        
+    </script>
+    <div class="content-setWeb-left">
+        <div id="credits-left" class="credits setUp-Model" style="width:max-content; display:flex; gap:10px;"> 
+            <!-- <p>v1.0 by itsTallulahhh</p>
+            <p>an Automattic Empathy</p>
+            <p>Microphone permission required</p> -->
+      
+            <!-- <p>Click to dismiss</p> -->
+            <a onclick="openSetting()" id="setting-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-gear" style="color: #fff;"></i></a>
+            <a onclick="toggleMic()" id="mic-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-microphone" style="color: #fff;"></i></a>
+            <a onclick="toggleCamera()" id="camera-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-camera" style="color: #fff;"></i></a>
+            <a onclick="toggleAudio()" id="audio-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-volume-off" style="color: #fff;"></i></a>
+            <a onclick="openInfo()" id="info-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-circle-info"  style="color: #fff;"></i></a>
+
+            <a onclick="toggleHistory()" id="history-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-clock-rotate-left"  style="color: #fff;"></i></a>
+
+            <!-- <p>Click to dismiss</p> -->
+            <a onclick="openProfile()" id="profile-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-user" style="color: #fff;"></i></a>
+            <a onclick="toggleLogOut()" id="logout-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-right-from-bracket" style="color: #fff;"></i></a>
+
+      </div>
+    </div>
+    <!-- <div class="content-setWeb-right">
+        <div id="credits-right" class="credits setUp-Model" style="width:max-content; display:flex; gap:10px;" onclick="openInfo()"> 
+            <p>v1.0 by itsTallulahhh</p>
+            <p>an Automattic Empathy</p>
+            <p>Microphone permission required</p> -->            
+            <!-- <a onclick="toggleInfo()" id="info-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-circle-info"  style="color: #fff;"></i></a>
+
+            <a onclick="toggleHistory()" id="history-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-clock-rotate-left"  style="color: #fff;"></i></a>
+
+            <p>Click to dismiss</p> -->
+            <!-- <a onclick="toggleProfile()" id="profile-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-user" style="color: #fff;"></i></a>
+            <a onclick="toggleLogOut()" id="logout-btn" class="btn-set btn-set-Web"><i class="fa-solid fa-right-from-bracket" style="color: #fff;"></i></a>
+
+      </div>
+    </div> -->
+    <div class="content-model">
+        <!-- three.min.js r110 -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.110.0/build/three.min.js"></script>
+
+<!-- GLTFLoader.js -->
+<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r110/examples/js/loaders/GLTFLoader.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- OrbitControls.js -->
+<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r110/examples/js/controls/OrbitControls.js"></script>
+
+<!-- pixiv three-vrm.js -->
+<script src="https://unpkg.com/@pixiv/three-vrm@0.3.0/lib/three-vrm.js"></script>
+<script  src="./btnSet.js"></script>
+
+<script  src="./script.js"></script>
+
+ <!-- <div class="backplate" id="backplate" >
+    <h1>VU-VRM</h1>
+      <h3>A simple mic-driven VRM client</h3>
+      <h4>Mic access required / Designed for use in OBS</h4>
+      <h4>Built for hands-free webcam-free inclusivity</h4>
+  
+    </div> -->
+
+    
+
+    <!-- <div id="infobar" class="infobar" >
+      <p><small>Launch OBS with these arguments to use this as a Browser Source:</small></p>
+      <p><span class="highlight">--use-fake-ui-for-media-stream --allow-file-access-from-files</span></p>
+    </div> -->
+
+     
+
+    </div>
+
+    <div id="showProfile" class="content">
+        <div class="content-profile class-content">
+            <a class="closebtn closeContent" id="closebtnProfile" onclick="hideAll()"><i class="fa-solid fa-xmark"></i></a>
+
+            <div class="card">
+
+             <div class="upper">
+
+               <img src="https://marketplace.canva.com/EAEvZ3NDFto/1/0/1600w/canva-blush-wave-linkedin-banner-nuNmg4S1vq8.jpg" class="img-fluid">
+               
+             </div>
+
+             <div class="user text-center">
+
+               <div class="profile">
+
+                 <img src="https://pbs.twimg.com/media/FwxSEWLaMAESzuw.jpg" class="rounded-circle" width="80">
+                 
+               </div>
+
+             </div>
+
+
+             <div class="mt-2 text-center">
+
+               <h2 class="mb-0">Nguyễn Hoàng Đức</h2>
+               <span class="text-muted d-block mb-2">Master</span>
+
+               <!-- <button class="btn btn-primary btn-sm follow">Follow</button> -->
+
+
+               <div class="d-flex justify-content-between align-items-center mt-4 px-4">
+
+                 <!-- <div class="stats">
+                   <h3 class="mb-0">Chat List: </h3>
+                   <span>1</span>
+
+                 </div>
+
+
+                 <div class="stats">
+                   <h3 class="mb-0">Token:</h3>
+                   <span>1</span>
+
+                 </div>
+
+
+                 <div class="stats">
+                   <h3 class="mb-0">Ranks</h3>
+                   <span>129</span>
+
+                 </div> -->
+                 
+               </div>
+               
+             </div>
+              
+            </div>
+
+          </div>
+    </div>
+    <div id="showSetting" class="content">
+        <div class="content-setting class-content">
+        <a class="closebtn closeContent" id="closeContent" onclick="hideAll()"><i class="fa-solid fa-xmark"></i></a>
+        <div class="sliders d-grid" id="sliders">
+            <!-- <div class="closebtn" id="closebtn" onclick="hideinterface()">❌</div> -->
+            <span class="controlboxlabel">Input Audio File</span>
+            <br>
+            <span class="controlboxlabel">Input Volume VU</span>
+            <input type="range" min="0" max="100" value="10" class="slider inputSetting" id="inputlevel">
+            <br>
+            <span class="controlboxlabel">Mouth Threshold</span>
+            <input type="range" min="0" max="50" value="10" class="slider inputSetting" id="mouththreshold">
+            <br>
+            <span class="controlboxlabel">Body Threshold</span>
+            <input type="range" min="0" max="50" value="10" class="slider inputSetting" id="bodythreshold">
+            <br>
+            <span class="controlboxlabel">Mouth Gain Boost</span>
+            <input type="range" min="0" max="25" value="10" class="slider inputSetting" id="mouthboost">
+            <br>
+            <span class="controlboxlabel">Body Gain Boost</span>
+            <input type="range" min="0" max="25" value="10" class="slider inputSetting" id="bodymotion">
+            <br>
+            <span class="controlboxlabel">Serious / Smiling</span>
+            <input type="range" min="0" max="100" value="80" class="slider inputSetting" id="expression">    
+            <br>
+            <span class="controlboxlabel">Chọn tệp âm thanh (mp3)</span>
+            <input class="file inputSetting" type="file" id="audiofile" accept=".mp3" onchange="handleFileUpload(event)">
+            <br>
+            <span class="controlboxlabel">Chọn tệp nhân vật (vrm)</span>
+            <input id="file" class="file inputSetting" type="file" accept=".vrm,.VRM" onchange="dofile()">
+        </div>
+        </div>
+    </div>
+    <div id="showInfo" class="content">
+        <div class="content-info class-content">
+            <a class="closebtn closeContent" id="closebtnInfo" onclick="hideAll()"><i class="fa-solid fa-xmark"></i></a>
+
+            <!-- <h1>TRỢ LÝ ẢO AI - Model 3D</h1>
+            <br> -->
+            <h3>1. Mô hình nhân vật:</h3>
+            <ul>
+                <li><strong><u>Tên nhân vật:</u></strong> AI</li>
+                <li><strong><u>Định dạng chấp thuận:</u></strong> .vrm</li>
+            </ul>
+
+            <h3>2. Mô hình phát triển:</h3>
+            <ul>
+                <li><strong><u>Công nghệ nền tảng:</u></strong> Được phát triển dựa trên nền tảng ChatGPT, sử dụng API từ OpenAI.</li>
+                <li><strong><u>Chức năng chuyển đổi:</u></strong> Kết quả trả về từ ChatGPT được chuyển thể sang âm thanh.</li>
+                <li><strong><u>Ứng dụng âm thanh:</u></strong> Sử dụng âm thanh để mô phỏng giọng nói cho nhân vật AI.</li>
+            </ul>
+
+            <h3>3. Tính năng nổi bật:</h3>
+            <ul>
+                <li><strong><u>Tương tác thời gian thực:</u></strong> Trợ lý AI có khả năng tương tác thời gian thực với người dùng, sử dụng cả văn bản và giọng nói.</li>
+                <li><strong><u>Mô hình 3D linh hoạt:</u></strong> Hỗ trợ định dạng .vrm, cho phép tích hợp dễ dàng vào các ứng dụng 3D và trò chơi.</li>
+                <li><strong><u>Khả năng tùy chỉnh:</u></strong> Người dùng có thể tùy chỉnh các biểu cảm và hành động của nhân vật AI thông qua các API và công cụ hỗ trợ.</li>
+            </ul>
+
+            <h3>4. Ứng dụng tiềm năng:</h3>
+            <ul>
+                <li><strong><u>Giáo dục:</u></strong> Mô phỏng giảng dạy trực tuyến, hỗ trợ học tập từ xa.</li>
+                <li><strong><u>Giải trí:</u></strong> Tạo nhân vật AI trong các trò chơi, ứng dụng giải trí tương tác.</li>
+                <li><strong><u>Dịch vụ khách hàng:</u></strong> Trợ lý ảo AI hỗ trợ trả lời các câu hỏi, cung cấp thông tin và hướng dẫn khách hàng.</li>
+            </ul>
+            
+            
+        </div>
+    </div>
+    <div id="showChatting" class="content">
+        <div class="content-chatting class-content">
+            <a class="closebtn closeContent" id="closebtnChatting" onclick="hideAll()"><i class="fa-solid fa-xmark"></i></a>
+
+            <p id="outputValueAudio"></p>
+            <div id="input-and-list-chat">
+                <div id="messages" class="list-chat">
+                
+                </div>
+                <div class="d-flex input-class-chat">
+                    <a class="a-btn-send" onclick="getFiles()"><i class="fa-solid fa-paperclip fa-lg" style="color: #E49CC7;"></i></a>
+                    <textarea rows="2" class="input-text" type="text" id="textInput" placeholder="Type your message"></textarea>
+                    <a class="a-btn-send" onclick="sendText()"><i class="fa-solid fa-paper-plane fa-lg" style="color: #E49CC7;"></i></a>
+                </div>
+            </div>    
+        </div>
+    </div>
+    <a onclick="openChatting()" id="btn-chat" class="btn-chat"><i class="fa-solid fa-comment"></i></a>
+  
+
+
+
+    
+</body>
+</html>
