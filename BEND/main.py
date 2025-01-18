@@ -14,7 +14,9 @@ from io import BytesIO
 import pyglet
 
 
+
 chatgpt_api_key = "KeyAPI-Here"
+
 
 # ChatGPT API endpoint
 chatgpt_endpoint = "https://api.openai.com/v1/chat/completions"
