@@ -15,7 +15,7 @@ import pyglet
 
 
 
-chatgpt_api_key = "KeyAPI-Here"
+chatgpt_api_key = "API"
 
 
 # ChatGPT API endpoint
