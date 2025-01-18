@@ -619,89 +619,6 @@
 </head>
 
 <body class="d-flex">
-
-
-    <!-- <script>
-        // Các biến trạng thái
-        let micEnabled = false;
-        let cameraEnabled = false;
-        let audioEnabled = false;
-    
-        function toggleMic() {
-            micEnabled = !micEnabled;
-            document.getElementById('mic-btn').innerHTML = micEnabled 
-                ? '<i class="fa-solid fa-microphone" style="color: #fff;"></i>' 
-                : '<i class="fa-solid fa-microphone-slash" style="color: #f00;"></i>';
-            // Thay đổi trạng thái mic của trang web ở đây
-            let mediaDevices = navigator.mediaDevices;
-            console.log(`Mic ${micEnabled ? 'Enabled' && mediaDevices
-            .getUserMedia({
-                video: false,
-                audio: true,
-            })  : 'Disabled' && mediaDevices
-            .getUserMedia({
-                video: false,
-                audio: false,
-            })}`);
-
-            document.getElementById('textNotification').style.display = micEnabled == true  ? 'flex' : 'none';
-
-        }
-    
-        function toggleCamera() {
-            cameraEnabled = !cameraEnabled;
-            document.getElementById('camera-btn').innerHTML = cameraEnabled 
-                ? '<i class="fa-solid fa-camera" style="color: #fff;"></i>' 
-                : '<i class="fa-solid fa-camera-slash" style="color: #f00;"></i>';
-            let mediaDevices = navigator.mediaDevices;
-
-            // Thay đổi trạng thái camera của trang web ở đây
-            console.log(`Camera ${cameraEnabled ? 'Enabled' && mediaDevices
-            .getUserMedia({
-                video: true,
-                audio: true,
-            })
-            .then((stream) => {
-                // Changing the source of video to current stream.
-                video.srcObject = stream;
-                video.addEventListener("loadedmetadata", () => {
-                    video.play();
-                });
-            })
-            .catch(alert) : 'Disabled' && mediaDevices.getUserMedia({video: false, audio: false})
-            .then(mediaStream => {
-              const stream = mediaStream;
-              const tracks = stream.getTracks();
-          
-              tracks[0].stop;
-            }) &&  document.getElementById('textNotification').display=='none'}`);
-
-            
-             document.getElementById('textNotification').style.display = micEnabled == true ? 'flex' : 'none';
-
-        }
-    
-        function toggleAudio() {
-            audioEnabled = !audioEnabled;
-            document.getElementById('audio-btn').innerHTML = audioEnabled 
-                ? '<i class="fa-solid fa-volume-up" style="color: #fff;"></i>' 
-                : '<i class="fa-solid fa-volume-mute" style="color: #f00;"></i>';
-            // Thay đổi trạng thái âm thanh của trang web ở đây
-            console.log(`Audio ${audioEnabled ? 'Enabled' : 'Disabled'}`);
-        }
-    
-        function openInfo() {
-            // Xử lý để ẩn thông tin khi nhấp vào phần tử với id 'credits'
-            document.getElementById('credits').style.display = 'none';
-        }
-    
-        function interface() {
-            // Xử lý để ẩn giao diện khi nhấp vào phần tử với id 'setting-btn'
-            document.getElementById('interface').style.display = 'none';
-        }
-    </script>
-    <p id="textNotification">Mic đang được bật, bạn có thể ra lệnh bằng giọng nói bằng cách gọi "Ai ơi" hoặc "Hey Ai".</p> -->
-
     <script>
         document.getElementById('setting-btn').addEventListener('click', openSetting);
         document.getElementById('btn-chat').addEventListener('click', openChatting);
@@ -849,31 +766,9 @@
 
                     <h2 class="mb-0">Nguyễn Hoàng Đức</h2>
                     <span class="text-muted d-block mb-2">Master</span>
-
-                    <!-- <button class="btn btn-primary btn-sm follow">Follow</button> -->
-
-
                     <div class="d-flex justify-content-between align-items-center mt-4 px-4">
 
-                        <!-- <div class="stats">
-                   <h3 class="mb-0">Chat List: </h3>
-                   <span>1</span>
-
-                 </div>
-
-
-                 <div class="stats">
-                   <h3 class="mb-0">Token:</h3>
-                   <span>1</span>
-
-                 </div>
-
-
-                 <div class="stats">
-                   <h3 class="mb-0">Ranks</h3>
-                   <span>129</span>
-
-                 </div> -->
+                     
 
                     </div>
 
